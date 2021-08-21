@@ -1,0 +1,11 @@
+---
+- name:  Copy sshd_config file
+  template:
+    src:  "{{ sshd_conf_file }}"
+    dest: "{{ ssh_conf_path }}/sshd_config"
+    mode: 0644
+    owner: root
+    #validate: /usr/sbin/sshd -t -f %s
+    backup: yes
+    
+  notify: restart sshd

@@ -1,0 +1,22 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  tasks:
+  - name: sshd - verify sshd_config file 
+    block:
+    - name: test sshd_config file
+      stat:
+        path: /etc/ssh/sshd_config
+      register: remote_file
+    - name: check sshd_config file creation
+      assert:
+        that:
+          - "remote_file.stat.exists"
+          - "remote_file.stat.isreg" # is a regular file
+          - "remote_file.stat.path == '/etc/ssh/sshd_config'"
+          - "remote_file.stat.mode == '0644'"
+          - "remote_file.stat.pw_name== 'root'"
+          - "remote_file.stat.gr_name == 'root'"
+          
